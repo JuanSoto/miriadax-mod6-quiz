@@ -3,7 +3,7 @@ exports.question = function(req, res){
 };
 
 exports.answer = function(req, res){
-	if (req.query.respuesta === 'Roma'){
+	if (req.query.respuesta.toLowerCase() === 'roma'){
 		res.render('quizes/answer', {respuesta: 'Correcto'});
 	}
 	else{
