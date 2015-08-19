@@ -11,9 +11,12 @@ router.get('/', function(req, res, next) {
 //check if param quizId is comming.. in this case we search on DB first, and pass the result on req
 router.param('quizId', quizController.load);
 
+router.get('/quizes/new', quizController.new);
 router.get('/quizes', quizController.index);
 router.get('/quizes/:quizId(\\d+)', quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 router.get('/author', authorController.me);
+
+router.post('/quizes/create/', quizController.create);
 
 module.exports = router;
