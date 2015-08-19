@@ -1,18 +1,26 @@
 var models = require('../models/models.js');
 
-exports.question = function(req, res){
-	models.Quiz.findAll().then(function(quiz){
-		res.render('quizes/question', {pregunta: quiz[0].pregunta});
+exports.index = function(req, res){
+	models.Quiz.findAll().then(function(quizes){
+		res.render('quizes/index.ejs', {quizes: quizes});
 	});	
 };
 
-exports.answer = function(req, res){
-	models.Quiz.findAll().then(function(quiz){
-		if (req.query.respuesta.toLowerCase() === quiz[0].respuesta.toLowerCase()){
-			res.render('quizes/answer', {respuesta: 'Correcto'});
+//get /quiz/:quizId
+exports.show = function(req, res){
+	models.Quiz.findById(req.params.quizId).then(function(quiz){		
+		res.render('quizes/show', {quiz: quiz.dataValues});
+	});	
+};
+
+//get /quiz/:quizId/answer
+exports.answer = function(req, res){	
+	models.Quiz.findById(req.params.quizId).then(function(quiz){
+		if (req.query.respuesta.toLowerCase() === quiz.dataValues.respuesta.toLowerCase()){
+			res.render('quizes/answer', {quiz:quiz.dataValues, respuesta: 'Correcto'});
 		}
 		else{
-			res.render('quizes/answer', {respuesta: 'Incorrecto'});
+			res.render('quizes/answer', {quiz:quiz.dataValues, respuesta: 'Incorrecto'});
 		}
 	});	
 };
