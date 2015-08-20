@@ -46,24 +46,45 @@ exports.answer = function(req, res){
 };
 
 exports.edit = function(req, res){	
-	res.render('quizes/edit', {quiz:req.quiz.dataValues, errors:[]});
+	var temas = [{value:'humanidades', description:'Humanidades'},
+		{value:'ocio', description:'Ocio'},
+		{value:'ciencia', description:'Ciencia'},
+		{value:'tecnologia', description:'Tecnología'},
+		{value:'otro', description:'Otro'}
+		];
+	
+	res.render('quizes/edit', {quiz:req.quiz.dataValues, temas:temas, errors:[]});
 };
 
 exports.new = function(req, res){
+	var temas = [{value:'humanidades', description:'Humanidades'},
+		{value:'ocio', description:'Ocio'},
+		{value:'ciencia', description:'Ciencia'},
+		{value:'tecnologia', description:'Tecnología'},
+		{value:'otro', description:'Otro'}
+		];
+	
 	var quiz = models.Quiz.build(
-		{pregunta:'pregunta', respuesta:'Respuesta'}
+		{pregunta:'pregunta', respuesta:'Respuesta', tema:'otro'}
 	);	
-	res.render('quizes/new', {quiz:quiz.dataValues, errors:[]});
+	res.render('quizes/new', {quiz:quiz.dataValues, temas:temas, errors:[]});
 };
 
 exports.create = function(req, res){	
+	var temas = [{value:'humanidades', description:'Humanidades'},
+		{value:'ocio', description:'Ocio'},
+		{value:'ciencia', description:'Ciencia'},
+		{value:'tecnologia', description:'Tecnología'},
+		{value:'otro', description:'Otro'}
+		];
+	
 	var quiz = models.Quiz.build(req.body.quiz);
 	quiz.validate().then(function(err){
 		if(err){
-			res.render('quizes/new', {quiz:quiz, errors:err.errors});
+			res.render('quizes/new', {quiz:quiz, temas:temas, errors:err.errors});
 		}
 		else{
-			quiz.save({fields:['pregunta', 'respuesta']}).then(function(){
+			quiz.save({fields:['pregunta', 'respuesta', 'tema']}).then(function(){
 				res.redirect('/quizes');
 			});		
 		}
@@ -71,15 +92,23 @@ exports.create = function(req, res){
 };
 
 exports.update =  function(req, res){	
+	var temas = [{value:'humanidades', description:'Humanidades'},
+		{value:'ocio', description:'Ocio'},
+		{value:'ciencia', description:'Ciencia'},
+		{value:'tecnologia', description:'Tecnología'},
+		{value:'otro', description:'Otro'}
+		];
+	
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
+	req.quiz.tema = req.body.quiz.tema;
 	
 	req.quiz.validate().then(function(err){
 		if(err){
-			res.render('quizes/edit', {quiz:req.quiz, errors:err.errors});
+			res.render('quizes/edit', {quiz:req.quiz, temas:temas, errors:err.errors});
 		}
 		else{
-			req.quiz.save({fields:['pregunta', 'respuesta']}).then(function(){
+			req.quiz.save({fields:['pregunta', 'respuesta', 'tema']}).then(function(){
 				res.redirect('/quizes');
 			});		
 		}
