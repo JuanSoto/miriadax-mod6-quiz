@@ -13,10 +13,15 @@ var storage = (process.env.DATABASE_STORAGE||null);
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize(DB_name, user, pwd, 
 	{dialect:dialect, protocol:protocol, port:port, host:host, storage:storage, omitNull:true});
-// var sequelize = new Sequelize(process.env.DATABASE_URL, {dialect:dialect, protocol:protocol, port:port, host:host, storage:storage, omitNull:true} );
+
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
+var Comment = sequelize.import(path.join(__dirname, 'comment'));
+
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
 
 exports.Quiz = Quiz;
+exports.Comment = Comment;
 
 sequelize.sync().then(function(){
 	Quiz.count().then(function(count){
