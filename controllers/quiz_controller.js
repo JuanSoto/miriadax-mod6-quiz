@@ -1,5 +1,11 @@
 var models = require('../models/models.js');
-
+var temas = [{value:'humanidades', description:'Humanidades'},
+		{value:'ocio', description:'Ocio'},
+		{value:'ciencia', description:'Ciencia'},
+		{value:'tecnologia', description:'Tecnología'},
+		{value:'otro', description:'Otro'}
+		];
+	
 exports.load = function(req, res, next, quizId){
 	models.Quiz.findById(req.params.quizId).then(function(quiz){		
 		if(quiz){
@@ -46,24 +52,11 @@ exports.answer = function(req, res){
 };
 
 exports.edit = function(req, res){	
-	var temas = [{value:'humanidades', description:'Humanidades'},
-		{value:'ocio', description:'Ocio'},
-		{value:'ciencia', description:'Ciencia'},
-		{value:'tecnologia', description:'Tecnología'},
-		{value:'otro', description:'Otro'}
-		];
 	
 	res.render('quizes/edit', {quiz:req.quiz.dataValues, temas:temas, errors:[]});
 };
 
-exports.new = function(req, res){
-	var temas = [{value:'humanidades', description:'Humanidades'},
-		{value:'ocio', description:'Ocio'},
-		{value:'ciencia', description:'Ciencia'},
-		{value:'tecnologia', description:'Tecnología'},
-		{value:'otro', description:'Otro'}
-		];
-	
+exports.new = function(req, res){	
 	var quiz = models.Quiz.build(
 		{pregunta:'pregunta', respuesta:'Respuesta', tema:'otro'}
 	);	
@@ -71,13 +64,6 @@ exports.new = function(req, res){
 };
 
 exports.create = function(req, res){	
-	var temas = [{value:'humanidades', description:'Humanidades'},
-		{value:'ocio', description:'Ocio'},
-		{value:'ciencia', description:'Ciencia'},
-		{value:'tecnologia', description:'Tecnología'},
-		{value:'otro', description:'Otro'}
-		];
-	
 	var quiz = models.Quiz.build(req.body.quiz);
 	quiz.validate().then(function(err){
 		if(err){
@@ -92,13 +78,6 @@ exports.create = function(req, res){
 };
 
 exports.update =  function(req, res){	
-	var temas = [{value:'humanidades', description:'Humanidades'},
-		{value:'ocio', description:'Ocio'},
-		{value:'ciencia', description:'Ciencia'},
-		{value:'tecnologia', description:'Tecnología'},
-		{value:'otro', description:'Otro'}
-		];
-	
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
 	req.quiz.tema = req.body.quiz.tema;
