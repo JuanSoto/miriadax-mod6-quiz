@@ -3,11 +3,16 @@ var router = express.Router();
 var quizController = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var authorController = require('../controllers/author_controller');
+var sessionController = require('../controllers/session_controller');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Quiz', errors:[] });
 });
+
+router.get('/login', sessionController.new);
+router.post('/login', sessionController.create);
+router.get('/logout', sessionController.destroy);
 
 //check if param quizId is comming.. in this case we search on DB first, and pass the result on req
 router.param('quizId', quizController.load);
