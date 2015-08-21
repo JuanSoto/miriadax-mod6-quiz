@@ -14,18 +14,20 @@ router.get('/login', sessionController.new);
 router.post('/login', sessionController.create);
 router.get('/logout', sessionController.destroy);
 
+router.get('/author', authorController.me);
+
 //check if param quizId is comming.. in this case we search on DB first, and pass the result on req
 router.param('quizId', quizController.load);
 
-router.get('/quizes/new', quizController.new);
 router.get('/quizes', quizController.index);
 router.get('/quizes/:quizId(\\d+)', quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
-router.get('/quizes/:quizId(\\d+)/edit', quizController.edit);
-router.get('/author', authorController.me);
-router.post('/quizes/create/', quizController.create);
-router.put('/quizes/:quizId(\\d+)', quizController.update);
-router.delete('/quizes/:quizId(\\d+)', quizController.destroy);
+
+router.get('/quizes/new', sessionController.loginRequired, quizController.new);
+router.get('/quizes/:quizId(\\d+)/edit', sessionController.loginRequired, quizController.edit);
+router.post('/quizes/create/', sessionController.loginRequired, quizController.create);
+router.put('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.update);
+router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.destroy);
 
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments/', commentController.create);
