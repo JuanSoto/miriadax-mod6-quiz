@@ -6,5 +6,12 @@
 <p><a href="/quizes/<%= quiz.id %>/comments/new"><button>Nuevo Comentario</button></a></p>
 <p><strong>Comentarios:</strong></p>
 <%for(index in quiz.Comments){%>
-	<p>-<%= quiz.Comments[index].texto%></p>
+<% 	if(quiz.Comments[index].publicado || session.user) {%>
+	<span>-<%= quiz.Comments[index].texto%></span>
+		<% 	if(!quiz.Comments[index].publicado && session.user) {%>
+			<form  class="line" method="post" action="/quizes/<%= quiz.id %>/comments/<%= quiz.Comments[index].id%>/publish?_method=put">
+				<input type="submit" value="Publicar">				
+			</form>			
+		<%}%>	
+	<%}%>
 <%}%>

@@ -18,6 +18,7 @@ router.get('/author', authorController.me);
 
 //check if param quizId is comming.. in this case we search on DB first, and pass the result on req
 router.param('quizId', quizController.load);
+router.param('commentId', commentController.load);
 
 router.get('/quizes', quizController.index);
 router.get('/quizes/:quizId(\\d+)', quizController.show);
@@ -31,5 +32,6 @@ router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizCont
 
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments/', commentController.create);
+router.put('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish', sessionController.loginRequired, commentController.publish);
 
 module.exports = router;

@@ -10,3 +10,4 @@ nav span {margin:0px 10px 0px 0px;}
 .link_r{float: right;padding-right: 10px;}
 #ErrorMsgs{color: #f61; font-size: smaller;}
 .right{float:right;}
+.line{display: inline-block;}
